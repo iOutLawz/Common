@@ -95,7 +95,7 @@ if IOW:Mode() == "LaneClear" then
 		CastSpell(_Q)
 	end
 
-	if CanUseSpell(myHero, _W) == READY and xinMenu.JG.Q:Value() then
+	if CanUseSpell(myHero, _W) == READY and xinMenu.JG.W:Value() then
 		CastSpell(_W)
 	end
 	
