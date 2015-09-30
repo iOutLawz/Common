@@ -72,7 +72,7 @@ if Ignite and xinMenu.Misc.AutoIgnite:Value() then
                   CastTargetSpell(enemy, Ignite)
                   end
                 end
-
+end
 
 -- KS
 for i,enemy in pairs(GoS:GetEnemyHeroes()) do
