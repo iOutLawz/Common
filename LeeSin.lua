@@ -7,9 +7,8 @@ lee.C:Boolean("Q", "Use Q", true)
 lee.C:Boolean("W", "Use W", true)
 lee.C:Boolean("E", "Use E", true)
 lee.C:Boolean("R", "Use R", true)
-lee.C:Info("OI", "Uncheck the deal if")
+lee.C:Info("OI", "Uncheck the 'R' if")
 lee.C:Info("Tchau", "using the KillSteal c:")
-
 
 lee:SubMenu("KS", "KillSteal")
 lee.KS:Boolean("R", "Use Q/R", false)
@@ -24,7 +23,7 @@ lee.CL:Boolean("W", "Use W", true)
 
 lee:SubMenu("Misc", "Misc")
 lee.Misc:Boolean("AutoIgnite", "AutoIgnite", false)
-lee.Misc:Boolean("AutoLevel", "AutoLevel", true)
+lee.Misc:Boolean("AutoLevel", "AutoLevel", false)
 lee.Misc:List("Autolvltable", "LVL Priority", 1, {"Q-E-W", "E-Q-W", "Q-W-E"})
 
 lee:SubMenu("JungleSteal", "Steal Dragon/Baron")
@@ -49,12 +48,9 @@ if IOW:Mode() == "Combo" then
 local target = GetCurrentTarget()
 	local QPred = GetPredictionForPlayer(GoS:myHeroPos(),target,GetMoveSpeed(target),1800,250,1100,60,true,false)
 
-
-    local QPred = GetPredictionForPlayer(GoS:myHeroPos(),target,GetMoveSpeed(target),1800,250,1100,60,true,false)
-
-
     if CanUseSpell(myHero, _Q) == READY and QPred.HitChance == 1 and GoS:ValidTarget(target, GetCastRange(myHero,_Q)) and lee.C.Q:Value() then
         CastSkillShot(_Q,QPred.PredPos.x,QPred.PredPos.y,QPred.PredPos.z)
+	end
 	
 	if CanUseSpell(myHero,_E) == READY and lee.C.E:Value() then
 		CastSpell(_E)
@@ -76,12 +72,15 @@ local ExtraDmg = 0
 		if GotBuff(myHero, "itemmagicshankcharge") > 99 then
 	        ExtraDmg = ExtraDmg + 0.1*GetBonusAP(myHero) + 100
 		end
+
+		local target = GetCurrentTarget()	
+		local QPred = GetPredictionForPlayer(GoS:myHeroPos(),target,GetMoveSpeed(target),1800,250,1100,60,true,false)
 for i,enemy in pairs(GoS:GetEnemyHeroes()) do
-if CanUseSpell(myHero,_Q) and CanUseSpell(myHero,_R) and GetCurrentHP(enemy)+GetMagicShield(enemy)+GetDmgShield(enemy) < GoS:CalcDamage(myHero, enemy, 0, 20 + 30*GetCastLevel(myHero,_Q) + 0.90*GetBonusDmg(myHero) + 200*GetCastLevel(myHero,_R) + 0.200*GetBonusDmg(myHero) + ExtraDmg) and GoS:ValidTarget(enemy, 850) and lee.KS.R:Value() then 
-				CastTargetSpell(enemy, _Q)
+if CanUseSpell(myHero,_Q) and QPred.HitChance == 1 and GoS:ValidTarget(target, GetCastRange(myHero,_Q)) and CanUseSpell(myHero,_R) and GetCurrentHP(enemy)+GetMagicShield(enemy)+GetDmgShield(enemy) < GoS:CalcDamage(myHero, enemy, 0, 20 + 30*GetCastLevel(myHero,_Q) + 0.90*GetBonusDmg(myHero) + 200*GetCastLevel(myHero,_R) + 0.200*GetBonusDmg(myHero) + ExtraDmg) and GoS:ValidTarget(enemy, 850) and lee.KS.R:Value() then 
+				CastSkillShot(_Q,QPred.PredPos.x,QPred.PredPos.y,QPred.PredPos.z)
 				CastTargetSpell(enemy, _R)
-elseif CanUseSpell(myHero,_Q) and CanUseSpell(myHero,_E) and GetCurrentHP(enemy)+GetMagicShield(enemy)+GetDmgShield(enemy) < GoS:CalcDamage(myHero, enemy, 0, 20 + 30*GetCastLevel(myHero,_Q) + 0.90*GetBonusDmg(myHero) + 25 + 35*GetCastLevel(myHero,_E) + 0.100*GetBonusAP(myHero) + ExtraDmg) and GoS:ValidTarget(enemy, 900) then 
-				CastTargetSpell(enemy, _Q)	
+elseif CanUseSpell(myHero,_Q) and QPred.HitChance == 1 and GoS:ValidTarget(target, GetCastRange(myHero,_Q))and CanUseSpell(myHero,_E) and GetCurrentHP(enemy)+GetMagicShield(enemy)+GetDmgShield(enemy) < GoS:CalcDamage(myHero, enemy, 0, 20 + 30*GetCastLevel(myHero,_Q) + 0.90*GetBonusDmg(myHero) + 25 + 35*GetCastLevel(myHero,_E) + 0.100*GetBonusAP(myHero) + ExtraDmg) and GoS:ValidTarget(enemy, 900) then 
+				CastSkillShot(_Q,QPred.PredPos.x,QPred.PredPos.y,QPred.PredPos.z)
 				CastSpell(_E)	
 			end
 				
@@ -139,6 +138,7 @@ for i,bigmobs in pairs(GoS:GetAllMinions(MINION_JUNGLE)) do
 			end	
 
 			if GoS:ValidTarget(bigmobs, GetCastRange(myHero,_Q)) and GoS:GetDistance(bigmobs) < GetCastRange(myHero,_Q) then 
+				local QPred = GetPredictionForPlayer(GoS:myHeroPos(),bigmobs,GetMoveSpeed(bigmobs),1800,250,1100,60,true,false)
 				if CanUseSpell(myHero, _Q) == READY and  GoS:CalcDamage(myHero, bigmobs, 0, Damage) > GetCurrentHP(bigmobs) and GetObjectName(bigmobs) == "SRU_Baron" and lee.JungleSteal.JG:Value() then
 					CastSkillShot(_Q,BigMobPos.x,BigMobPos.y,BigMobPos.z)
 				elseif CanUseSpell(myHero, _Q) == READY and  GoS:CalcDamage(myHero, bigmobs, 0, Damage) > GetCurrentHP(bigmobs) and GetObjectName(bigmobs) == "SRU_Dragon" and lee.JungleSteal.JG:Value() then
@@ -161,6 +161,7 @@ end)
 PrintChat("For a 100% operation, download the WardJump made by ilovesona in the forum.")
 PrintChat("LeeSin Loaded !")
 PrintChat("MadeBy: OutLawz")
+
 
 
 
