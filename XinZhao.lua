@@ -48,7 +48,7 @@ local target = GetCurrentTarget()
 			CastTargetSpell(target, _R)			
 		end
 
-	if CanUseSpell(myHero,_E) == READY and xinMenu.C.E:Value() GoS:ValidTarget(target, 649) then
+	if CanUseSpell(myHero,_E) == READY and xinMenu.C.E:Value() and GoS:ValidTarget(target, 649) then
 			CastTargetSpell(target, _E)
 		end
 		
