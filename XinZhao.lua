@@ -10,9 +10,14 @@ xinMenu.C:Boolean("R", "Use R", true)
 xinMenu.C:Boolean("E", "Use E", true)
 xinMenu.C:Boolean("W", "Use W", true)
 xinMenu.C:Boolean("Q", "Use Q", true)
+xinMenu.C:Key("Combo", "Combo", string.byte(" "))
 
 xinMenu:SubMenu("KS", "KillSteal")
 xinMenu.KS:Boolean("E/R", "Use E/R", true)
+
+xinMenu:SubMenu("Item", "Use Items")
+xinMenu.Item:Boolean("Youmuus", "Use Youmuu's Ghostblade", true)
+xinMenu.Item:Boolean("Blade", "Use Blade Of The Ruined King", true)
 
 xinMenu:SubMenu("JG", "JungleClear/LaneClear")
 xinMenu.JG:Boolean("E", "Use E", true)
@@ -83,6 +88,25 @@ if CanUseSpell(myHero, _R) == READY and CanUseSpell(myHero, _E) == READY and Get
 end
 end
 
+-- Items
+
+if xinMenu.C.Combo:Value() then
+local Blade = GetItemSlot(myHero,3153)
+local Youmuus = GetItemSlot(myHero,3142)	
+		if Blade >= 1 and GoS:ValidTarget(target,GetCastRange(myHero,_R)) and (GetMaxHP(myHero) / GetCurrentHP(myHero)) >= 1.25 and xinMenu.Item.Blade:Value() then 
+		if CanUseSpell(myHero,GetItemSlot(myHero,3153)) == READY then
+			CastTargetSpell(target,GetItemSlot(myHero,3153))
+		end
+	end
+
+	if Youmuus >= 1 and GoS:ValidTarget(target,GetCastRange(myHero,_R)) and xinMenu.Item.Youmuus:Value() then
+		if CanUseSpell(myHero,GetItemSlot(myHero,3142)) == READY then
+			CastSpell(GetItemSlot(myHero,3142))
+		end
+	end
+	
+end
+
 
 -- JungleClear
 for _,mob in pairs(GoS:GetAllMinions(MINION_JUNGLE)) do
@@ -119,11 +143,15 @@ end
 
 -- Drawings
 
-if xinMenu.Drawings.E:Value() then DrawCircle(GoS:myHeroPos().x, GoS:myHeroPos().y, GoS:myHeroPos().z,(GetCastRange(myHero,_E)),3,100,0xff010000) end
-if xinMenu.Drawings.R:Value() then DrawCircle(GoS:myHeroPos().x, GoS:myHeroPos().y, GoS:myHeroPos().z,(GetCastRange(myHero,_R)),3,100,0xff010000) end
+if xinMenu.Drawings.Q:Value() then DrawCircle(GoS:myHeroPos().x, GoS:myHeroPos().y, GoS:myHeroPos().z,(GetCastRange(myHero,_Q)),3,100,0xffFF0000) end
+if xinMenu.Drawings.E:Value() then DrawCircle(GoS:myHeroPos().x, GoS:myHeroPos().y, GoS:myHeroPos().z,(GetCastRange(myHero,_E)),3,100,0xff790101) end
+if xinMenu.Drawings.R:Value() then DrawCircle(GoS:myHeroPos().x, GoS:myHeroPos().y, GoS:myHeroPos().z,(GetCastRange(myHero,_R)),3,100,0xff320101) end
 
 end)
 
-
-PrintChat("XinZhao Loaded !")
-PrintChat("MadeBy: OutLawz")
+PrintChat(string.format("<font color='#FFFFFF'>XinZhao Loaded !</font>"))
+PrintChat(string.format("<font color='#FFFFFF'>_SpellRange:</font>"))
+PrintChat(string.format("<font color='#FF0000'>Q </font> <font color='#000000'>Range</font>"))
+PrintChat(string.format("<font color='#BF0202'>W </font> <font color='#000000'>Range</font>"))
+PrintChat(string.format("<font color='#790101'>E </font> <font color='#000000'>Range</font>"))
+PrintChat(string.format("<font color='#320101'>R </font> <font color='#000000'>Range</font>"))
