@@ -48,7 +48,7 @@ local target = GetCurrentTarget()
 			CastTargetSpell(target, _R)			
 		end
 
-	if CanUseSpell(myHero,_E) == READY and xinMenu.C.E:Value() then
+	if CanUseSpell(myHero,_E) == READY and xinMenu.C.E:Value() GoS:ValidTarget(target, 649) then
 			CastTargetSpell(target, _E)
 		end
 		
@@ -95,7 +95,7 @@ if IOW:Mode() == "LaneClear" then
 		CastSpell(_Q)
 	end
 
-	if CanUseSpell(myHero, _W) == READY and xinMenu.JG.W:Value() then
+	if CanUseSpell(myHero, _W) == READY and xinMenu.JG.Q:Value() then
 		CastSpell(_W)
 	end
 	
