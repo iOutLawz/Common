@@ -35,7 +35,6 @@ Fizz.Drawings:Boolean("R", "Draw R", true)
 
 
 Fizz:SubMenu("Misc", "Misc")
-Fizz.Misc:Boolean("E", "AutoDodge Spells with E")
 Fizz.Misc:Boolean("AutoIgnite", "AutoIgnite", false)
 Fizz.Misc:Boolean ("AutoLevel", "AutoLevel", true)
 Fizz.Misc:List("Autolvltable", "LVL Priority", 1, {"E-W-Q", "E-Q-W", "Q-E-W"})
