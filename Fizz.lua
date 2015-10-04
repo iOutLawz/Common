@@ -89,6 +89,7 @@ end
 	-- Harass
 	if IOW:Mode() == "Harass"  then 
 	local target = GetCurrentTarget() 
+	local EnPos = GetOrigin(target)
 
     	if Fizz.Harass.W:Value() and CanUseSpell(myHero,_W) == READY then    
        CastSpell(_W)
